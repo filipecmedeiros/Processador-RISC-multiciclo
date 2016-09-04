@@ -1,0 +1,95 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2010 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II
+# Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
+# Date created = 12:49:04  July 02, 2014
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		ProjetoHW_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Stratix II"
+set_global_assignment -name DEVICE AUTO
+set_global_assignment -name TOP_LEVEL_ENTITY ProjetoHW
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "9.1 SP2"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "12:49:04  JULY 02, 2014"
+set_global_assignment -name LAST_QUARTUS_VERSION "9.1 SP2"
+set_global_assignment -name USE_GENERATED_PHYSICAL_CONSTRAINTS OFF -section_id eda_blast_fpga
+set_global_assignment -name DEVICE_FILTER_SPEED_GRADE FASTEST
+set_global_assignment -name SIMULATION_MODE FUNCTIONAL
+set_global_assignment -name SYSTEMVERILOG_FILE cpu.sv
+set_global_assignment -name VHDL_FILE RegistradorPC.vhd
+set_global_assignment -name SYSTEMVERILOG_FILE Mux_2Bits_Iord.sv
+set_global_assignment -name VHDL_FILE Memoria.vhd
+set_global_assignment -name VHDL_FILE Instr_Reg.vhd
+set_global_assignment -name SYSTEMVERILOG_FILE Mux_2Bits_RegDST.sv
+set_global_assignment -name VHDL_FILE Banco_reg.vhd
+set_global_assignment -name VHDL_FILE RegistradorA.vhd
+set_global_assignment -name VHDL_FILE RegistradorB.vhd
+set_global_assignment -name SYSTEMVERILOG_FILE Mux_1Bits_ALUsrcA.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Extensor_16to32.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Shift_Left2.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Mux_2Bits_ALUsrcB.sv
+set_global_assignment -name VHDL_FILE ula32.vhd
+set_global_assignment -name SYSTEMVERILOG_FILE alucontrol.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Shift_Left2_26to28.sv
+set_global_assignment -name VHDL_FILE RegistradorALU.vhd
+set_global_assignment -name SYSTEMVERILOG_FILE Mux_3Bits_PCSource.sv
+set_global_assignment -name VHDL_FILE RegistradorEPC.vhd
+set_global_assignment -name VHDL_FILE RegistradorMDR.vhd
+set_global_assignment -name SYSTEMVERILOG_FILE Extensor_LUI_16to32.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Shiftbox.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Mux_3Bits_Memtoreg.sv
+set_global_assignment -name SYSTEMVERILOG_FILE ExtendEPC.sv
+set_global_assignment -name SYSTEMVERILOG_FILE LoadBox.sv
+set_global_assignment -name SYSTEMVERILOG_FILE StoreBox.sv
+set_global_assignment -name SYSTEMVERILOG_FILE Mux_1Bits_datasrc.sv
+set_global_assignment -name VHDL_FILE RegDesloc.vhd
+set_global_assignment -name VHDL_FILE Registrador.vhd
+set_global_assignment -name VECTOR_WAVEFORM_FILE cpu.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE Shift_Left2_26to28.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE Extensor_LUI_16to32.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE Extensor_16to32.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE ExtendEPC.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE Load.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE Shift_Left2.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE StoreBox.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE ShiftBox.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE RegA.vwf
+set_global_assignment -name VECTOR_WAVEFORM_FILE ProjetoHW.vwf
+set_global_assignment -name BDF_FILE ProjetoHW.bdf
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE ProjetoHW.vwf
+set_global_assignment -name ADD_DEFAULT_PINS_TO_SIMULATION_OUTPUT_WAVEFORMS ON
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name LL_ROOT_REGION ON -section_id "Root Region"
+set_global_assignment -name LL_MEMBER_STATE LOCKED -section_id "Root Region"
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

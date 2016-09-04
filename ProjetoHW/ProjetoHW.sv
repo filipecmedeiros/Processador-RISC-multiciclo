@@ -1,0 +1,179 @@
+module ProjetoHW(input clock, input reset,
+		output [4:0] saida_rd,
+		output [31:0] saida_storeBox,
+		output [31:0] saida_shiftBox,
+		output [31:0] saida_loadBox,
+		output [31:0] saida_pc,
+		output [31:0] opcode,
+		output [31:0] saida_rb,
+		output [31:0] saida_alu,
+		output [31:0] Instr_Reg,
+		output wire [31:0] dataout,
+		output [5:0] Estado,
+		output [31:0] DATAOUT,
+		output [5:0] op,
+		output [4:0] RT,
+		output [4:0] RS,
+		output [15:0] IMEDIATO
+		);
+	
+		//Fios
+		wire ClockSinal;
+		wire [31:0] enderecopc;
+		wire [31:0] pc;
+		wire [31:0] aluout;
+		wire [31:0] endereco;
+		wire [31:0] datain;
+		//wire [31:0] dataout;
+		wire [4:0] 	rs;		// rs e rt precisam ter 5 bits
+		wire [4:0] 	rt;
+		wire [15:0] imediato;
+		wire [4:0] 	rd;
+		wire [4:0] 	regdst;
+		wire [31:0] datareg;
+		wire [31:0] a;
+		wire [31:0] b;
+		wire [31:0] saidaA;
+		wire [31:0] saidaB;
+		wire [31:0] extendido;
+		wire [31:0] deslocado;
+		wire [31:0] alusrca;
+		wire [31:0] alusrcb;
+		wire 		Zero;
+		wire [31:0] alu;
+		wire [2:0]  aluop;
+		wire [25:0] jump;
+		wire [27:0] jal;
+		wire [31:0] pulo;
+		wire [31:0] mdr;
+		wire [31:0] eepc;
+		wire [31:0] epc;
+		wire [31:0] lui;
+		wire [4:0]	shamt;
+		wire [31:0] saidaStore;
+
+
+
+		//Fios da cpu (sinais de controle)
+		wire [2:0] ALUop; 			// Sinal de controle ALU
+		wire WriteALUout; 			// Sinal Registrador ALUOUT
+		wire ALUsrcA;				// Sinal Mux Registrador A 
+		wire [1:0] ALUsrcB;			// Sinal Mux Registrador B
+		wire WriteA;				// Sinal Registrador A
+		wire WriteB;				// Sinal Registrador B
+		wire ResetCPU;				// Sinal de Reset					
+		wire EPC_Write; 			// Sinal Registrador EPC
+		wire IRWrite; 				// Sinal de controle Instruções
+		wire WriteMDR;				// Sinal de controle MDR
+		wire Mem;					// Sinal de controle Memória
+		wire [1:0] IorD; 			// Sinal Mux Memória
+		wire DataDST;				// Sinal Mux Memória
+		wire [2:0] MemtoReg;		// Sinal Mux Registradores
+		wire [2:0] Shift;			// Sinal de controle Shift
+		wire Store; 				// Sinal de controle Store
+		wire Load;					// Sinal de controle Load
+		wire [2:0] PCSource; 		// Sinal Mux PC
+		wire [1:0] RegDST; 			// Sinal Mux Registradores
+		wire RegWrite; 				// Sinal de controle Banco Registradores
+		wire PCWriteCond; 			// Sinal de escrita no PC
+		wire PCWrite;				// Sinal de escrita no PC
+//		wire [5:0]Estado;			// Indica o estado
+/**/	wire PCload;				// Fio do OR com o AND da escrita de PC
+		wire [5:0] OP;
+		wire [5:0] FUNCT;
+		wire [5:0] VetorFlags;
+	
+		
+		
+		
+//		Módulos -------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+		cpu(ALUop, WriteALUout, ALUsrcA, ALUsrcB, WriteA, WriteB, ResetCPU,EPC_Write, IRWrite, WriteMDR, Mem, IorD, DataDST, MemtoReg,		
+			Shift, Store, Load, PCSource, RegDST, RegWrite, PCWriteCond, PCWrite, Estado, OP, FUNCT, VetorFlags, clock);
+		 
+		RegistradorPC(clock, ResetSinal, PCload, enderecopc, pc); 
+		
+		Mux_2Bits_Iord (pc, aluout, IorD, endereco);
+		
+		Memoria (endereco, clock, Mem, datain, dataout);
+		
+		Instr_Reg (ClockSinal, ResetSinal, IRWrite, dataout, OP, rs, rt, imediato);
+		
+		Mux_2Bits_RegDST (rt, rd, RegDST, regdst);
+		
+		Banco_reg (ClockSinal, ResetSinal, RegWrite, rs, rt, regdst, datareg, a, b);
+		
+		RegistradorA(ClockSinal, ResetSinal, WriteA, a, saidaA);
+		
+		RegistradorB(ClockSinal, ResetSinal, WriteB, b, saidaB);
+		
+		Mux_1Bits_ALUsrcA (pc, saidaA, ALUsrcA, alusrca);
+		
+		Extensor_16to32 (imediato, extendido);
+		
+		Shift_Left2(extendido, deslocado);
+		
+		Mux_2Bits_ALUsrcB (saidaB, extendido, deslocado, alusrcb);
+		
+		ula32 (alusrca, alusrcb, aluop, alu, VetorFlags[0],VetorFlags[1],VetorFlags[2],VetorFlags[3],VetorFlags[4]);
+		
+		alucontrol (FUNCT, aluop);
+		
+		RegistradorALU (ClockSinal, ResetSinal, WriteALUout, alu, aluout);
+		
+		Shift_Left2_26to28 (jump, jal);
+		
+		Mux_3Bits_PCSource (pulo, aluout, alu, saidaA, eepc, epc, PCSource, enderecopc);
+		
+		RegistradorEPC (ClockSinal, ResetSinal, EPC_Write, alu, epc);
+		
+		RegistradorMDR (ClockSinal, ResetSinal, WriteMDR, dataout, mdr);
+		
+		Extensor_LUI_16to32 (imediato, lui);
+		
+		Shiftbox (saidaA, saidaB, shamt, Shift, shiftout);
+		
+		Mux_3Bits_Memtoreg (saidaB, saidaLoad, shiftout, pc, lui, aluout, mdr, MemtoReg, datareg);
+		
+		ExtendEPC (mdr, eepc);
+		
+		LoadBox (mdr, Load, saidaLoad);
+		
+		StoreBox (saidaB, mdr, Store, saidaStore);
+		
+		Mux_1Bits_datasrc (saidaB, saidaStore, DataDST, datain);
+			
+	
+		assign ResetSinal = reset;
+		assign ClockSinal = clock;
+/**/	assign PCload = (PCWrite || (PCWriteCond && Zero));
+
+		// Para dizer a verdade, não sei porque tem de usar o [X:Y] do lado direito, mas, funcionou dessa forma.
+		assign FUNCT = {imediato[5:0]}; 
+		assign rd = {imediato[15:11]};
+		assign jump = {rs, rt, imediato};// Concatena todos os dados do rs,rt,imm e salva em jump. Que deve ter pelo menos 26 bits suficientes. 5 bits + 5 bits + 16 = 26 bits. Depois disso, da um shift. 
+		assign pulo = {{pc[31:28]}, {jal[27:0]}}; // Concatenação funciona dessa forma... 4 bits de pc + o resto do jal
+		assign shamt = {imediato[10:6]};
+		
+		assign saida_rd = rd;
+		assign saida_storeBox = saidaStore;
+		assign saida_shiftBox = shiftout;
+		assign saida_loadBox = saidaLoad;
+		assign saida_pc = pc;
+		assign opcode = OP;
+		assign saida_rb = saidaB;
+		assign saida_alu = alu;
+		assign DATAOUT = dataout;
+		assign op = OP;
+		assign RS = rs;
+		assign RT = rt;
+		assign IMEDIATO = imediato;
+
+endmodule
+/*	
+	lui $3,1
+	srl $3, $3, 16
+	addi $3, $3, 1 
+*/

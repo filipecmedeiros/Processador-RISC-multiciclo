@@ -1,0 +1,9 @@
+Info (10281): Verilog HDL Declaration information at ProjetoHW.sv(11): object "dataout" differs only in case from object "DATAOUT" in the same scope
+Info (10281): Verilog HDL Declaration information at ProjetoHW.sv(16): object "RS" differs only in case from object "rs" in the same scope
+Info (10281): Verilog HDL Declaration information at ProjetoHW.sv(15): object "RT" differs only in case from object "rt" in the same scope
+Info (10281): Verilog HDL Declaration information at ProjetoHW.sv(18): object "IMEDIATO" differs only in case from object "imediato" in the same scope
+Info (10281): Verilog HDL Declaration information at ProjetoHW.sv(44): object "aluop" differs only in case from object "ALUop" in the same scope
+Info (10281): Verilog HDL Declaration information at ProjetoHW.sv(40): object "alusrca" differs only in case from object "ALUsrcA" in the same scope
+Info (10281): Verilog HDL Declaration information at ProjetoHW.sv(41): object "alusrcb" differs only in case from object "ALUsrcB" in the same scope
+Info (10281): Verilog HDL Declaration information at ProjetoHW.sv(32): object "regdst" differs only in case from object "RegDST" in the same scope
+Info (10281): Verilog HDL Declaration information at ProjetoHW.sv(14): object "op" differs only in case from object "OP" in the same scope

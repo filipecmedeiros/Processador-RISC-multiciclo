@@ -1,0 +1,8 @@
+module Shift_Left2_26to28(input [31:0]entrada1, output logic [31:0]saida);
+
+	always_comb
+	begin
+		//saida[31:0] << entrada1[31:0]; 		// Copia a entrada para os primeiros 26 bits da saida
+	end	
+
+endmodule

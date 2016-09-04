@@ -1,0 +1,11 @@
+module Mux_1Bits_ALUsrcA(input [31:0]entrada1, input [31:0]entrada2, input ALUsrcA, output logic [31:0]saida);
+
+	always@(*) begin
+		if(ALUsrcA == 1'b0) begin 			// 0 - Endereço
+			saida = entrada1; 
+		end else if(ALUsrcA == 1'b1) begin  // 1 - Registrador A
+			saida = entrada2; 				
+		end
+	end	
+
+endmodule

@@ -1,0 +1,19 @@
+module Mux_3Bits_PCSource(input [31:0]pc, input [31:0]aluout, input [31:0]saida_alu, input [31:0]saida_rega, input [31:0]saida_extendepc, input [31:0]epc, input [2:0]pcsource, output [31:0]saida);
+
+	always@(*) begin
+		if(pcsource == 3'b000) begin
+			saida = pc;
+		end else if(pcsource == 3'b001) begin
+			saida = aluout;
+		end else if(pcsource == 3'b010) begin
+			saida = saida_alu;
+		end else if(pcsource == 3'b011) begin
+			saida = saida_rega;
+		end else if(pcsource == 3'b100) begin
+			saida = saida_extendpc;
+		end else if(pcsource == 3'b101) begin
+			saida = epc;
+		end
+	end
+endmodule
+	

@@ -1,0 +1,13 @@
+module LoadBox(input [31:0]entrada, input [1:0]load, output [31:0]saida);
+
+	always@(*) begin
+		if (load == 00) begin 					// Load Byte
+			saida <= {24'b0, entrada[7:0]}; 		// Preenche os primeiros 24 bits com 0 e o resto com os valores do dado
+		end else if (load == 01) begin 			// Load Halfword
+			saida <= {16'b0, entrada[15:0]}; 	// Preenche os primeiros 16 bits com 0 e o resto com os valores do dado
+		end else begin							// Load Word
+			saida <= entrada; 					// Passa todo o dado recebido
+		end
+	end
+	
+endmodule 
